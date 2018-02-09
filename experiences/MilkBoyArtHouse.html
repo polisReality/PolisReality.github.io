@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <title>MilkBoy ArtHouse</title>
+
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.8.6/dist/aframe-extras.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aframe-animation-component@%5E3.2.x/dist/aframe-animation-component.min.js"></script>
+
+    <script>
+
+    var previousPanel=null;
+    var previousDesc=null;
+    var linkNum = 0;
+    links = ["http://theclarice.umd.edu/series/2017-2018-milkboy-arthouse", "http://theclarice.umd.edu/events/2017/warren-wolf-and-the-wolfpack", "http://theclarice.umd.edu/events/2017/donny-mccaslin-group", "http://theclarice.umd.edu/events/2017/keith-a-wallace", "http://theclarice.umd.edu/events/2017/colin-stetson-saxophone", "http://theclarice.umd.edu/events/2017/jaimeo-brown-transcendence", "http://theclarice.umd.edu/events/2017/la-manta", "http://theclarice.umd.edu/events/2017/rahim-alhaj-oud"];
+    var welcome;
+
+	// $(document).ready(function(){
+
+
+ //    	sceneEl = document.querySelector("#main-app-container");
+ //    	cam = document.querySelector("#head");
+ //    	welcome = document.querySelector("#infoWelcome");
+
+ //    	if (!AFRAME.utils.device.isMobile()) {
+
+	//     	cam.setAttribute('universal-controls', "movementEnabled: false");
+
+ //            document.querySelector('#mobileDirections').style.display = 'none';
+	//     }
+ //        else{
+
+ //            document.querySelector('#DesktopDirections').style.display = 'none';
+ //        }
+	// });
+
+    function addClick(){
+        console.log("addClick()");
+        $('#visitButton').click(function(){
+
+            window.location.href = links[linkNum];
+        });
+
+        var cursor = document.querySelector('#cursor');
+        cursor.setAttribute("fuse", "true");
+    }	
+
+	// Component to change to random color on click.
+	AFRAME.registerComponent('cursor-listener', {
+
+	  schema: {
+	  	num: {type: 'int'},
+	  	desc: {type: 'string'},
+	  },
+
+	  init: function () {
+
+	  	var el = this.el;
+	    var data = this.data;
+	    var description = document.querySelector(data.desc);
+
+	    console.log(description);
+
+	    this.el.addEventListener('click', function (evt) {
+
+	      console.log('Clicked');
+
+	      if(previousPanel !== null){
+
+	      	previousPanel.setAttribute("scale", "1.8 1.2 1");
+	      	previousDesc.setAttribute("visible", "false");
+	      }
+	      else{
+	      	welcome.setAttribute("visible", "false");
+	      }
+
+	      previousPanel = el;
+	      previousDesc = description;
+
+	      el.setAttribute("scale", "2.45 1.633 1");
+	      description.setAttribute("visible", "true");
+	      linkNum = data.num;
+	    });
+
+	    this.el.addEventListener('mouseenter', function(evt){
+	    	console.log('Mouse Enter');
+	    	
+	    	if(el.getAttribute("scale").x !== 2.45)
+	    		el.setAttribute("scale", "2.2 1.467 1");
+	    });
+
+	    this.el.addEventListener('mouseleave', function(evt){
+	    	console.log('Mouse Leave');
+
+	    	if(el.getAttribute("scale").x !== 2.45)
+	    		el.setAttribute("scale", "1.8 1.2 1");
+	    });
+	  }
+	});
+
+	</script>
+    
+</head>
+<body>
+
+    <a-scene id='main-app-container'>
+
+     	<a-assets>
+     		<img id="atrium" src="./img/MilkboyArthouse/mbah_01.jpg" preload="true"/>
+
+     		<img id="ColinStetson" src="./img/MilkboyArthouse/acts/ColinStetson.jpg" preload="true"/>
+     		<img id="jaimeoBrown" src="./img/MilkboyArthouse/acts/jaimeoBrown.jpg" preload="true"/>
+     		<img id="keithWallace" src="./img/MilkboyArthouse/acts/keithWallace.jpg" preload="true"/>
+     		<img id="laManta" src="./img/MilkboyArthouse/acts/laManta.jpg" preload="true"/>
+     		<img id="MccaslinGroup" src="./img/MilkboyArthouse/acts/MccaslinGroup.jpg" preload="true"/>
+     		<img id="RahimAlHajt" src="./img/MilkboyArthouse/acts/RahimAlHajt.jpg" preload="true"/>
+     		<img id="warrenWolf" src="./img/MilkboyArthouse/acts/warrenWolf.jpg" preload="true"/>
+
+     		<img id="ColinStetsonDesc" src="./img/MilkboyArthouse/colinstetsonDesc.png" preload="true"/>
+     		<img id="jaimeobrownDesc" src="./img/MilkboyArthouse/jaimeobrownDesc.png" preload="true"/>
+     		<img id="keithwallaceDesc" src="./img/MilkboyArthouse/keithwallaceDesc.png" preload="true"/>
+     		<img id="lamantaDesc" src="./img/MilkboyArthouse/lamantaDesc.png" preload="true"/>
+     		<img id="mccaslinDesc" src="./img/MilkboyArthouse/donnymccaslinDesc.png" preload="true"/>
+     		<img id="rahimDesc" src="./img/MilkboyArthouse/rahimDesc.png" preload="true"/>
+     		<img id="warrenwolfDesc" src="./img/MilkboyArthouse/warrenwolfDesc.png" preload="true"/>
+
+     		<img id="welcome" src="./img/MilkboyArthouse/welcome.png" preload="true"/>
+     		<img id="visitDesc" src="./img/MilkboyArthouse/parkVisitButton.png" preload="true"/>
+            <img id=tripodCover src="./img/icons/BE_tripodLogo.png" preload="true"/>
+		</a-assets>
+
+<!--          <a-entity rotation = "0 180 0" position='0 1.4 -5' >
+        	<a-camera id="head">
+          		<a-entity cursor="fuse: true; fuseTimeout: 1000" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+            	material="color: black; shader: flat" raycaster="objects: .link"></a-entity> 
+        	</a-camera>
+        </a-entity> -->
+
+        <a-entity rotation = "0 180 0" position='0 1.4 -5' >
+        	<a-camera id="head">
+          		<a-cursor id="cursor" fuse="false" fuse-timeout="800" raycaster="objects: .link"></a-cursor> 
+        	</a-camera>
+        </a-entity>
+
+        <a-plane src="#tripodCover" position="0 0 -5" rotation="-90 180 0" scale="2.3 2.3 2.3" transparent="true"></a-plane>
+
+        <a-sky src="#atrium" rotation='0 180 0'></a-sky>
+
+        <a-plane id="ColinStetsonPlane" class="link" src="#ColinStetson" scale="1.8 1.2 1" position="0 3.65 1.133" rotation="0 180 0" cursor-listener="num: 4; desc: #infoPlaneColinStetson"></a-plane>
+        <a-plane id="jaimeoBrownPlane" class="link" src="#jaimeoBrown" scale="1.8 1.2 1" position="-2.738 3.65 0.464" rotation="0 154.35 0" cursor-listener="num: 5; desc: #infoPlanejaimeobrown"></a-plane>
+        <a-plane id="keithWallacePlane" class="link" src="#keithWallace" scale="1.8 1.2 1" position="2.738 3.65 0.464" rotation="0 -154.35 0" cursor-listener="num: 3; desc: #infoPlanekeithwallace"></a-plane>
+        <a-plane id="laMantaPlane" class="link" src="#laManta" scale="1.8 1.2 1" position="-4.785 3.65 -0.99" rotation="0 127 0" cursor-listener="num: 6; desc: #infoPlanelamanta"></a-plane>
+        <a-plane id="MccaslinGroupPlane" class="link" src="#MccaslinGroup" scale="1.8 1.2 1" position="4.785 3.65 -0.990" rotation="0 -127 0" cursor-listener="num: 2; desc: #infoPlaneMccaslin"></a-plane>
+        <a-plane id="RahimAlHajtPlane" class="link" src="#RahimAlHajt" scale="1.8 1.2 1" position="-5.955 3.65 -3.195" rotation="0 108.46 0" cursor-listener="num: 7; desc: #infoPlanerahim"></a-plane>
+        <a-plane id="warrenWolfPlane" class="link" src="#warrenWolf" scale="1.8 1.2 1" position="5.955 3.65 -3.195" rotation="0 -108.46 0" cursor-listener="num: 1; desc: #infoPlanewarrenwolf"></a-plane>
+
+
+        <a-plane id="infoPlaneColinStetson" scale="6 3 1" rotation="-45 180 0" material="transparent:true" src="#ColinStetsonDesc" position="0.0 1.097 -0.903" visible="false"></a-plane>
+        <a-plane id="infoPlanejaimeobrown" scale="6 3 1" rotation="-45 180 0" material="transparent:true" src="#jaimeobrownDesc" position="0.0 1.097 -0.903" visible="false"></a-plane>
+        <a-plane id="infoPlanekeithwallace" scale="6 3 1" rotation="-45 180 0" material="transparent:true" src="#keithwallaceDesc" position="0.0 1.097 -0.903" visible="false"></a-plane>
+        <a-plane id="infoPlanelamanta" scale="6 3 1" rotation="-45 180 0" material="transparent:true" src="#lamantaDesc" position="0.0 1.097 -0.903" visible="false"></a-plane>
+        <a-plane id="infoPlaneMccaslin" scale="6 3 1" rotation="-45 180 0" material="transparent:true" src="#mccaslinDesc" position="0.0 1.097 -0.903" visible="false"></a-plane>
+        <a-plane id="infoPlanerahim" scale="6 3 1" rotation="-45 180 0" material="transparent:true" src="#rahimDesc" position="0.0 1.097 -0.903" visible="false"></a-plane>
+        <a-plane id="infoPlanewarrenwolf" scale="6 3 1" rotation="-45 180 0" material="transparent:true" src="#warrenwolfDesc" position="0.0 1.097 -0.903" visible="false"></a-plane>
+        <a-plane id="infoWelcome" scale="6 3 1" rotation="-45 180 0" material="transparent:true" src="#welcome" position="0.0 1.097 -0.903" visible="true"></a-plane>
+
+        <a-plane id="visitButton" class="link" scale="1.5 1 1" material="transparent:true" src="#visitDesc" position="0.0 0.506 -1.605" rotation="-45 180 0"></a-plane>
+    </a-scene>
+</body>
+</html>

@@ -1,0 +1,24 @@
+#preloader-modal.preloader-modal__complete .preloader-modal__ok, #preloader-modal .preloader-modal__spinner{
+    display: inline-block;
+    margin-bottom: 0.5em;
+}
+
+#preloader-modal.preloader-modal__complete .preloader-modal__spinner, #preloader-modal .preloader-modal__ok{
+    display: none;
+    margin-bottom: 0.5em;
+}
+
+#preloader-modal .btn{
+    margin-top: 2em;
+}
+
+.image-icon{
+	display: inline-block;
+	*display: inline;
+	vertical-align: middle;
+}
+
+.image{
+	height: 1.3em;
+	width: 1.95em;
+}

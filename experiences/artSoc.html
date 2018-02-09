@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <title>Paint Experience</title>
+
+    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+    <script src="https://npmcdn.com/aframe-template-component@3.1.1"></script>
+    <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.8.6/dist/aframe-extras.min.js"></script>
+
+    <script>
+
+    	var line;
+    	var mouseDown;
+    	var count;
+    	var scene;
+    	var inVRmode;
+    	var onMobile;
+
+    	$(document).ready(function(){
+
+
+        	sceneEl = document.querySelector("#main-app-container");
+        	cam = document.querySelector("#head");
+
+			infoDesk = document.querySelector("#desktopDesc");
+	    	infoMobile = document.querySelector("#mobileDesc");
+	    	infoVR = document.querySelector("#vrDesc");
+
+        	//CHANGED: Added this to hide the mouse on desktop
+        	if (!AFRAME.utils.device.isMobile()) {
+
+		    	cam.setAttribute('universal-controls', "movementEnabled: false");
+		    	onMobile = false;
+		    	infoDesk.setAttribute('visible', 'true');
+
+		    	document.querySelector('#mobileDirections').style.display = 'none';
+		    }
+		    else{
+
+		    	document.querySelector('#DesktopDirections').style.display = 'none';
+
+		    	infoMobile.setAttribute('visible', 'true');
+		    	onMobile = true;
+		    }
+
+		    inVRmode = false;
+		});
+
+		function createLine(){
+
+			console.log("HELLO");
+
+			var geometry = new THREE.BufferGeometry();
+		  	var positions = new Float32Array(500*3);
+		  	geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+		  	var drawCount = 2;
+		  	geometry.setDrawRange(0, drawCount);
+		  	var material = new THREE.LineBasicMaterial({color: 0xff4500, linewidth: 2});
+
+		  	line = new THREE.Line(geometry, material);
+		  	line.frustumCulled = false;
+		  	scene.object3D.add(line);
+
+		  	count = 0;
+		}
+
+        AFRAME.registerComponent('collider-check', {
+
+		  init: function () {
+
+		  	mouseDown = false;
+		  	count = 0;
+
+		  	var el = this.el;
+		  	scene = document.querySelector('#main-app-container');
+		  	console.log("INIT");
+
+		  	createLine();
+
+		    this.el.addEventListener('raycaster-intersected', function (evt) {
+		      
+		      console.log('Player hit something!'+evt.position);
+
+		      if(mouseDown || inVRmode){
+
+		      	var hit = evt.detail.intersection.point;
+		      	var hitVector = new THREE.Vector3(hit.x, hit.y, 165);
+
+				var pos = line.geometry.attributes.position.array;
+
+				if(count === 0){
+
+					pos[count * 3 + 0] = hitVector.x;
+					pos[count * 3 + 1] = hitVector.y;
+					pos[count * 3 + 2] = hitVector.z;
+
+					count++;
+		      	}
+
+				pos[count * 3 + 0] = hitVector.x;
+				pos[count * 3 + 1] = hitVector.y;
+				pos[count * 3 + 2] = hitVector.z;
+
+				count++;
+
+		      	line.geometry.setDrawRange(0, count);
+		      	line.geometry.attributes.position.needsUpdate = true;
+		      	//console.log(pos);
+		      	//evt.detail.intersection.point
+		      }
+		    });
+
+		    scene.addEventListener('enter-vr', function () {
+			   console.log("ENTERED VR");
+			   inVRmode = true;
+			   infoVR.setAttribute('visible', 'true');
+			   infoMobile.setAttribute('visible', 'false');
+			});
+
+			scene.addEventListener('exit-vr', function () {
+			   console.log("EXIT VR");
+			   inVRmode = false;
+			   infoVR.setAttribute('visible', 'false');
+			   infoMobile.setAttribute('visible', 'true');
+			});
+
+		    this.el.addEventListener('mousedown', function(evt){
+		    	console.log('MOUSE DOWN');
+
+		    	mouseDown = true;
+		    });
+
+		    this.el.addEventListener('mouseup', function(evt){
+
+		    	mouseDown = false;
+		    	console.log('MOUSE UP');
+		    	createLine();
+		    });
+
+		    this.el.addEventListener('mouseleave', function(evt){
+
+		    	mouseDown = false
+		    	console.log("MOUSE LEAVE");
+		    	createLine();
+		    });
+
+		    scene.addEventListener("touchstart", function(evt){
+
+		    	console.log("TOUCH START");
+		    	mouseDown = true;
+		    });
+			
+			scene.addEventListener("touchend", function(evt){
+
+				console.log("TOUCH END");
+				mouseDown = false;
+				createLine();
+			});
+		  },
+
+		  update: function () {
+
+
+		  }
+		});
+    </script>
+</head>
+<body>
+
+    <a-scene id='main-app-container'>
+
+    	<a-assets>
+
+    		<img id="deskDesc" src="./img/artSoc/artSocPaint-Dirctions.png" preload="true"></img>
+    		<img id="mobDesc" src="./img/artSoc/artSocPaint-mobile.png" preload="true"></img>
+    		<img id="virtualDesc" src="./img/artSoc/artSocPaint-vr.png" preload="true"></img>
+    		<img id="atrium" src="./img/artSoc/insideArtSoc.JPG" preload="true"></img>
+
+    		<img id=tripodCover src="./img/icons/BE_tripodLogo.png" preload="true"></img>
+    	</a-assets>
+
+    	<a-plane id="desktopDesc" src="#deskDesc" position=".5 1 2" scale="4 2 1" rotation="-30 180 0" transparent="true" visible="false"></a-plane>
+    	<a-plane id="mobileDesc" src="#mobDesc" position=".5 1 1" scale="4 2 1" rotation="-30 180 0" transparent="true" visible="false"></a-plane>
+    	<a-plane id="vrDesc" src="#virtualDesc" position=".5 1 2" scale="4 2 1" rotation="-30 180 0" transparent="true" visible="false"></a-plane>
+
+        <a-plane collider-check class="link" width="10" height='10' scale='4.421 4.421 4.421' position="11.78 43.54 165.79" rotation="0 180 0"></a-plane>
+        <!-- https://stackoverflow.com/questions/40012419/accessing-raycaster-members -->
+        <a-entity rotation = "0 180 0" position='0 1.4 -5' >
+        <a-camera id="head">
+          <a-cursor raycaster="objects: .link"></a-cursor> 
+        </a-camera>
+        </a-entity>
+
+        <a-plane src="#tripodCover" position="0 0 -5" rotation="-90 180 0" scale="2.3 2.3 2.3" transparent="true"></a-plane>
+
+       <a-sky src="#atrium" rotation='0 -90 0'></a-sky>
+    </a-scene>
+</body>
+</html>

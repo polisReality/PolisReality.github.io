@@ -1,0 +1,146 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic);
+
+body, html{
+    background-color: black;
+    color: white;
+    width: 100%;
+    height: 100%;
+    font-family: 'Lato', sans-serif;
+}
+
+#business-profile-overlay-container{
+    width: 100%;
+    height: 0;
+    position: absolute;
+    top: 0;
+    /*z-index: 999;*/
+    color: white;
+    background-color: black;
+}
+
+#business-profile-header-name, #business-name-label{
+    margin: 2% auto;
+    font-size: 150%;
+    text-transform: uppercase;
+  /*  display: none;*/
+    text-align: center;
+}
+
+#business-profile-header-label{
+    margin: 2% auto;
+    /*font-size: 150%;*/
+    text-transform: uppercase;
+    /*display: none;*/
+    text-align: center;
+}
+
+#statistics-label{
+    font-size: 150%;
+    margin: 5% auto 0 5%;
+    /*display: none;*/
+}
+
+#business-profile-pic{
+    width: 350px;
+    height: 350px;
+    margin: 0 auto;
+    background-color: gray;
+    border-radius: 50%;
+    /*display: none;*/
+}
+
+#statistics-container{
+    /*display: none;*/
+    margin-left: 5%;
+}
+
+#close-profile-overlay{
+    font-size: 150%;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    color: white;
+    background-color: red;
+    border: 2px solid white;
+    font-weight: bold;
+    z-index: 999;
+    /*display: none;*/
+}
+
+#open-floor-plan{
+    font-size: 150%;
+    position: absolute;
+    right: 10px;
+    top: 75px;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    color: white;
+    background-color: blue;
+    border: 2px solid white;
+    font-weight: bold;
+    z-index: 999;
+    /*display: none;*/
+}
+
+#floor-plan-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    display: none;
+    z-index: 990;
+}
+
+#floor-plan{
+    height: 100%;
+    width: 83%;
+    /*min-width: 300px;*/
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+    background-image: url('../img/icons/floor-plan.png');
+    background-size: 100% 100%;
+}
+
+#floor-plan-action-panel{
+    height: 100%;
+    width: 15%;
+    /*min-width: 75px;*/
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+    background-color: gray;
+}
+
+.floor-plan-action-button{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 5% auto 5% auto;
+}
+
+.floor-panel-option{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: block;
+    margin: 10% auto;
+}
+
+#add-item{
+    margin-top: 150px;
+    background-color: orange;
+}
+
+#add-script{
+    background-color: aquamarine;
+}
+
+#add-voiceover{
+    background-color: fuchsia;
+}
