@@ -24,7 +24,7 @@
             z-index: 50;
             background-color: rgba(255, 255, 255, 0);
   }
-</style>
+</style> 
 
 <body style='margin : 0px; overflow: hidden;'>
 
@@ -33,11 +33,12 @@
   	<a-assets>
       <a-asset-item id="shell_obj" src="./models/startupshell-logo3D_red.obj"></a-asset-item>
       <a-asset-item id="shell_mtl" src="./models/startupshell-logo3D_red.mtl"></a-asset-item>
+      <a-asset-item id="exoItalicFont" src="./fonts/exo2BlackItalic.typeface.json"></a-asset-item>
   	</a-assets>
 
     <a-obj-model src="#shell_obj" mtl="#shell_mtl"></a-obj-model>
     <a-entity position="1 0 0.3" text-geometry="value: Aesthetic; font: #exoItalicFont; style: italic; size: 0.8; weight: bold; height: 0;"
-                  material="shader: flat; color: white"></a-entity>
+                  material="shader: flat; color: red"></a-entity>
 
     <!-- define a camera which will move according to the marker position -->
     <a-marker-camera preset='hiro'></a-marker-camera>
