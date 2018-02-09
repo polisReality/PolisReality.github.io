@@ -1,5 +1,5 @@
 <script src="./js/aframe.min.js"></script>
-<script src="./js/ar.js"></script>
+<script src="./js/aframe-ar.js"></script>
 <script src="./js/jquery-3.3.1.js"></script>
 <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
 <script type="text/javascript">
@@ -36,9 +36,11 @@
       <a-asset-item id="exoItalicFont" src="./fonts/exo2BlackItalic.typeface.json"></a-asset-item>
   	</a-assets>
 
-    <a-obj-model src="#shell_obj" mtl="#shell_mtl"></a-obj-model>
-    <a-entity position="1 0 0.3" text-geometry="value: Aesthetic; font: #exoItalicFont; style: italic; size: 0.8; weight: bold; height: 0;"
-                  material="shader: flat; color: red"></a-entity>
+    <a-anchor hit-testing-enabled='true'>
+      <a-obj-model src="#shell_obj" mtl="#shell_mtl" position="0, 1.5, 2.5"></a-obj-model>
+      <a-entity position="-.2 0 2.0" rotation="0 90 0" text-geometry="value: Aesthetic; font: #exoItalicFont; style: italic; size: 0.8; weight: bold; height: 0;"
+                    material="shader: flat; color: #6b070a"></a-entity>
+    </a-anchor>
 
     <!-- define a camera which will move according to the marker position -->
     <a-marker-camera preset='hiro'></a-marker-camera>
