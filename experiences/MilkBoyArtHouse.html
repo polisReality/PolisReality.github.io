@@ -10,6 +10,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aframe-animation-component@%5E3.2.x/dist/aframe-animation-component.min.js"></script>
 
+    <!-- Bootstrap Bootswatch theme CSS - other themes available here: https://bootswatch.com -->
+    <!-- <link rel="stylesheet" href="https://cdn.rawgit.com/thomaspark/bootswatch/gh-pages/slate/bootstrap.min.css" /> -->
+    <!-- <link rel="stylesheet" href="./css/slate.css" /> -->
+
+    <!-- Font Awesome -->
+    <!-- <link rel="stylesheet" href="./css/font-awesome-4.7.0/css/font-awesome.min.css" /> -->
+
+    <!-- Custome CSS -->
+    <!-- <link rel="stylesheet" href="./css/loadingpage-style.css" /> -->
+  
+    <!-- Bootstrap JS Dependencies -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+
+    <!-- A-Frame JS Dependencies -->
+    <!-- <script src="./js/aframe-preloader-component.js"></script> -->
+
     <script>
 
     var previousPanel=null;
@@ -18,24 +34,24 @@
     links = ["http://theclarice.umd.edu/series/2017-2018-milkboy-arthouse", "http://theclarice.umd.edu/events/2017/warren-wolf-and-the-wolfpack", "http://theclarice.umd.edu/events/2017/donny-mccaslin-group", "http://theclarice.umd.edu/events/2017/keith-a-wallace", "http://theclarice.umd.edu/events/2017/colin-stetson-saxophone", "http://theclarice.umd.edu/events/2017/jaimeo-brown-transcendence", "http://theclarice.umd.edu/events/2017/la-manta", "http://theclarice.umd.edu/events/2017/rahim-alhaj-oud"];
     var welcome;
 
-	// $(document).ready(function(){
+	$(document).ready(function(){
 
 
- //    	sceneEl = document.querySelector("#main-app-container");
- //    	cam = document.querySelector("#head");
- //    	welcome = document.querySelector("#infoWelcome");
+    	sceneEl = document.querySelector("#main-app-container");
+    	cam = document.querySelector("#head");
+    	welcome = document.querySelector("#infoWelcome");
 
- //    	if (!AFRAME.utils.device.isMobile()) {
+    	if (!AFRAME.utils.device.isMobile()) {
 
-	//     	cam.setAttribute('universal-controls', "movementEnabled: false");
+	    	cam.setAttribute('universal-controls', "movementEnabled: false");
 
- //            document.querySelector('#mobileDirections').style.display = 'none';
-	//     }
- //        else{
+            document.querySelector('#mobileDirections').style.display = 'none';
+	    }
+        else{
 
- //            document.querySelector('#DesktopDirections').style.display = 'none';
- //        }
-	// });
+            document.querySelector('#DesktopDirections').style.display = 'none';
+        }
+	});
 
     function addClick(){
         console.log("addClick()");
@@ -106,6 +122,44 @@
 </head>
 <body>
 
+    <!-- <div id="preloader-modal" class="modal instructions-modal" tabindex="-1" role="dialog" style="width: 100%">
+      <div class="modal-dialog modal-dialog__full" role="document">
+        <div class="modal-content vertical-align text-center">
+          <div class="col-md-6 col-md-offset-3">
+            <div class="row">
+              <div class="col-xs-12">
+              <br>
+              <br>
+                <h2 id="mobileDirections">To explore slide your finger on the screen
+                    <i class="fa fa-hand-o-up fa-2x image-icon" aria-hidden="true"></i>
+                    or tilt your mobile device. Hover the circular cursor over items to select them. You can click this icon
+                    <img src="./img/icons/cardboardlogo.png" class = "image-icon image"/>
+                    to change the viewing experience for virtual reality.
+                </h2>
+                <h2 id="DesktopDirections">To explore click the screen and use the circular cursor to hover over objects and select them.
+                    To release your cursor press escape. You can also click this icon
+                    <img src="./img/icons/cardboardlogo.png" class = "image-icon image"/>
+                    to change the viewing experience for virtual reality.
+                </h2>
+                <i class="preloader-modal__ok fa fa-check fa-5x text-success" aria-hidden="true"></i>
+                <i class="preloader-modal__spinner fa fa-cog fa-spin fa-5x fa-fw text-muted" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <h2 class="progress-label">Loading 0%</h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button type="button" class="btn-lg btn-default clearfix" data-dismiss="modal" onclick="addClick()">Start</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ -->
     <a-scene id='main-app-container'>
 
      	<a-assets>
