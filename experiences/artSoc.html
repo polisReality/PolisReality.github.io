@@ -21,7 +21,10 @@
     	var scene;
     	var inVRmode;
     	var onMobile;
+
     	var infoVR;
+    	var infoMobile;
+    	var infoDesk;
 
     	$(document).ready(function(){
 
@@ -39,12 +42,8 @@
 		    	cam.setAttribute('universal-controls', "movementEnabled: false");
 		    	onMobile = false;
 		    	infoDesk.setAttribute('visible', 'true');
-
-		    	document.querySelector('#mobileDirections').style.display = 'none';
 		    }
 		    else{
-
-		    	document.querySelector('#DesktopDirections').style.display = 'none';
 
 		    	infoMobile.setAttribute('visible', 'true');
 		    	onMobile = true;
@@ -122,13 +121,20 @@
 			   inVRmode = true;
 			   infoVR.setAttribute('visible', 'true');
 			   infoMobile.setAttribute('visible', 'false');
+			   infoDesk.setAttribute('visible', 'false');
 			});
 
 			scene.addEventListener('exit-vr', function () {
 			   console.log("EXIT VR");
 			   inVRmode = false;
 			   infoVR.setAttribute('visible', 'false');
-			   infoMobile.setAttribute('visible', 'true');
+
+			   if(onMobile){
+			   	infoMobile.setAttribute('visible', 'true');
+			   }
+			   else{
+			   	infoDesk.setAttribute('visible', 'true');
+			   }
 			});
 
 		    this.el.addEventListener('mousedown', function(evt){
