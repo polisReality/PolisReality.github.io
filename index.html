@@ -39,6 +39,14 @@
       margin-top: 10px;
       margin-bottom: 10px;
     }
+
+    .noHighlight{
+      border:none;
+      outline:none;
+      text-decoration:none;
+      color:inherit;
+      -webkit-tap-highlight-color: white;
+    }
   </style>
 </head>
 <body class='bg-light'>
@@ -53,21 +61,24 @@
 
     <div class='card cardShadow topCard'>
       <div class='card-block'>
-        <h3 class='card-header'>Art Gallery VR Experience</h3>
+        <h3 class='card-header'><a class='noHighlight' href='./experiences/artSoc.html'>Art Gallery VR Experience</a></h3>
         <iframe src="./experiences/artSoc.html"></iframe>
       </div>
     </div>
 
     <div class='card cardShadow'>
       <div class='card-block '>
-        <h3 class='card-header'>Bar/Concert Venue Virtual Experience</h3>
+        <h3 class='card-header'><a class='noHighlight' href="./experiences/MilkBoyArtHouse.html">Bar/Concert Venue Virtual Experience</a></h3>
         <iframe src="./experiences/MilkBoyArtHouse.html"></iframe>
       </div>
     </div>
 
     <div class='card cardShadow'>
       <div class='card-block '>
-        <h3 class='card-header'>Augmented Reality Hologram</h3>
+        <h3 class='card-header'><a class='noHighlight' href="./firstDemo/ar1.html">Augmented Reality Hologram</a></h3>
+        <br>
+        <p style="text-align: center">Use <a href="./img/hiro.png">this</a> marker to place the hologram</p>
+        <br>
         <iframe src="./firstDemo/ar1.html"></iframe>
       </div>
     </div>
