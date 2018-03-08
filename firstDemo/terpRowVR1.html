@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+  <head>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+    	<a-assets>
+	      <a-asset-item id="building_obj" src="./models/BuildingModel2.obj"></a-asset-item>
+	      <a-asset-item id="building_mtl" src="./models/BuildingModel2.mtl"></a-asset-item>
+	      <img id="map" src='./img/mapHD.jpg'></img>
+  		</a-assets>
+
+  		<a-obj-model src="#building_obj" mtl="#building_mtl" scale="1.886 1.886 1.886" position="-5.037 0 11.792" rotation="0 -6.990085100596043 0" material=""></a-obj-model>
+  		<a-plane src="#map" rotation="-87.892 -177.445 170.34" scale="32.917 25.324 19.541" position="1.376 0 4.064"></a-plane>
+
+		<a-entity position="-4.664 -0.083 1.444" rotation="-39.19031318694831 86.34473972621505 0" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:McKeldin Library" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
+		<a-entity position="-0.3 1.805 9.165" rotation="-21.027551081301212 -179.96604345059157 0" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:Terrapin Row" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
+		<a-entity position="5.65 1.805 1.014" rotation="-21.027551081301212 -111.49758693245819 0.5156620156177408" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:Route One" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
+
+      	<a-sky color="#ECECEC"></a-sky>
+      	<a-camera position='0 2 3.5' rotation="-25 90 0"></a-camera>
+    </a-scene>
+  </body>
+</html>

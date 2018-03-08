@@ -71,37 +71,80 @@
 	//   }
 	// });
 
-	function updateMaterialSide (material, side) {
-		    if (!material) {
-		      return;
-		    }
+	// function updateMaterialSide (material, side) {
+	// 	    if (!material) {
+	// 	      return;
+	// 	    }
 
-		    if (material instanceof THREE.Material) {
-		      material.side = side;
-		      material.needsUpdate = true
-		    } else if (material instanceof THREE.MultiMaterial) {
-		      material.materials.forEach(function(childMaterial) {
-		        updateMaterial(childMaterial, side);
-		      });
-		    }
+	// 	    if (material instanceof THREE.Material) {
+	// 	      material.side = side;
+	// 	      material.needsUpdate = true
+	// 	    } else if (material instanceof THREE.MultiMaterial) {
+	// 	      material.materials.forEach(function(childMaterial) {
+	// 	        updateMaterial(childMaterial, side);
+	// 	      });
+	// 	    }
 	
-	}
-	AFRAME.registerComponent('double-texture', {
+	// }
+	// AFRAME.registerComponent('double-texture', {
 
-		schema: {
+	// 	schema: {
 
-		},
+	// 	},
 
-		init: function () {
-			var el = this.el;
-			var data = this.data;
-			var material = el.getObject3D('mesh').material;
+	// 	init: function () {
+	// 		var el = this.el;
+	// 		var data = this.data;
+	// 		var material = el.getObject3D('mesh').material;
 
-			updateMaterialSide(material, THREE.DoubleSide);
+	// 		updateMaterialSide(material, THREE.DoubleSide);
 
-			console.log("INIT");
-		}
-	});
+	// 		console.log("INIT");
+	// 	}
+	// });
+</script>
+
+<script>
+
+ $(document).ready(function(){
+
+ 	var m = document.getElementById('stadium');
+
+  (function(modelEl) {
+    if (!window['AFRAME'] && !modelEl) {
+      return;
+    }
+        var model = modelEl.object3DMap("mesh");
+
+      traverse(model);
+  })(m);
+
+  });
+
+  function traverse(node) {
+    node.children.forEach(function(child) {
+      if (child.children) {
+        traverse(child);
+      }
+
+      updateMaterial(child['material'], THREE.DoubleSide);
+    });
+  }
+
+  function updateMaterialSide(material, side) {
+    if (!material) {
+      return;
+    }
+
+    if (material instanceof THREE.Material) {
+      material.side = side;
+      material.needsUpdate = true
+    } else if (material instanceof THREE.MultiMaterial) {
+      material.materials.forEach(function(childMaterial) {
+        updateMaterial(childMaterial, side);
+      });
+    }
+  }
 </script>
 
 <body style='margin : 0px; overflow: hidden;'>
@@ -123,7 +166,7 @@
 		<a-entity position="-4.5 0 3.3" rotation="0 0 0">
 			<!-- <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="10000" easing='linear' repeat="indefinite"></a-animation> -->
 			<!-- <a-obj-model double-texture src="#shell_obj" mtl="#shell_mtl" scale="2 2 2" position="0, 0, 0" rotation='0 0 0'> -->
-				<a-obj-model double-texture src="#stadium_obj" mtl="#stadium_mtl" scale=".01 .01 .01" position="0, -3, 0" rotation='0 180 0'>
+				<a-obj-model id='stadium' src="#stadium_obj" mtl="#stadium_mtl" scale=".01 .01 .01" position="0, -3, 0" rotation='0 180 0'>
 				<!-- <a-entity position="0 -.7 1" rotation="0 90 0" text-geometry="value: Startup Shell; font: #exoItalicFont; style: italic; size: 0.8; weight: bold; height: 0;" material="shader: flat; color: #6b070a"> -->
 				<!-- </a-entity> -->
 			</a-obj-model>
