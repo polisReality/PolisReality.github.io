@@ -102,9 +102,9 @@
 	// 		console.log("INIT");
 	// 	}
 	// });
-</script>
+ </script>
 
-<script>
+<!-- <script>
 
  $(document).ready(function(){
 
@@ -145,7 +145,7 @@
       });
     }
   }
-</script>
+</script> -->
 
 <body style='margin : 0px; overflow: hidden;'>
 	<a-scene >
@@ -153,8 +153,8 @@
 	      <!-- <a-asset-item id="shell_obj" src="./models/BuildingModel2.obj"></a-asset-item>
 	      <a-asset-item id="shell_mtl" src="./models/BuildingModel2.mtl"></a-asset-item> -->
 
-	      <a-asset-item id="shell_obj" src="./models/tRowShell.obj"></a-asset-item>
-	      <a-asset-item id="shell_mtl" src="./models/tRowShell.mtl"></a-asset-item>
+	      <a-asset-item id="shell_obj" src="./models/trowShellTri.obj"></a-asset-item>
+	      <a-asset-item id="shell_mtl" src="./models/trowShellTri.mtl"></a-asset-item>
 
 	      <a-asset-item id="stadium_mtl" src="./models/stadium2.mtl"></a-asset-item>
 	      <a-asset-item id="stadium_obj" src="./models/stadium2.obj"></a-asset-item>
@@ -166,7 +166,7 @@
 		<a-entity position="-4.5 0 3.3" rotation="0 0 0">
 			<!-- <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="10000" easing='linear' repeat="indefinite"></a-animation> -->
 			<!-- <a-obj-model double-texture src="#shell_obj" mtl="#shell_mtl" scale="2 2 2" position="0, 0, 0" rotation='0 0 0'> -->
-				<a-obj-model id='stadium' src="#stadium_obj" mtl="#stadium_mtl" scale=".01 .01 .01" position="0, -3, 0" rotation='0 180 0'>
+				<a-obj-model id='stadium' src="#shell_obj" mtl="#shell_mtl" scale="1 1 1" position="1, 0, 0" rotation='90 180 0'>
 				<!-- <a-entity position="0 -.7 1" rotation="0 90 0" text-geometry="value: Startup Shell; font: #exoItalicFont; style: italic; size: 0.8; weight: bold; height: 0;" material="shader: flat; color: #6b070a"> -->
 				<!-- </a-entity> -->
 			</a-obj-model>

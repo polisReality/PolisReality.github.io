@@ -5205,7 +5205,7 @@ Object.assign( ARjs.Context.prototype, THREE.EventDispatcher.prototype );
 // ARjs.Context.baseURL = '../'
 // default to github page
 ARjs.Context.baseURL = 'https://jeromeetienne.github.io/AR.js/three.js/'
-ARjs.Context.REVISION = '1.5.1'
+ARjs.Context.REVISION = '1.5.0'
 
 
 
@@ -6471,6 +6471,7 @@ ARjs.Anchor = function(arSession, markerParameters){
 	// log to debug
 	console.log('ARjs.Anchor -', 'changeMatrixMode:', this.parameters.changeMatrixMode, '/ markersAreaEnabled:', markerParameters.markersAreaEnabled)
 
+
 	var markerRoot = new THREE.Group
 	scene.add(markerRoot)
 
@@ -6486,21 +6487,7 @@ ARjs.Anchor = function(arSession, markerParameters){
 	}else{
 		// sanity check - MUST be a trackingBackend with markers
 		console.assert( arContext.parameters.trackingBackend === 'artoolkit' || arContext.parameters.trackingBackend === 'aruco' )
-
-		// honor markers-page-resolution for https://webxr.io/augmented-website
-		if( location.hash.substring(1).startsWith('markers-page-resolution=') === true ){
-			// get resolutionW/resolutionH from url
-			var markerPageResolution = location.hash.substring(1)
-			var matches = markerPageResolution.match(/markers-page-resolution=(\d+)x(\d+)/)
-			console.assert(matches.length === 3)
-			var resolutionW = parseInt(matches[1])
-			var resolutionH = parseInt(matches[2])
-			var arContext = arSession.arContext
-			// generate and store the ARjsMultiMarkerFile
-			ARjs.MarkersAreaUtils.storeMarkersAreaFileFromResolution(arContext.parameters.trackingBackend, resolutionW, resolutionH)
-		}
-
-		// if there is no ARjsMultiMarkerFile, build a default one
+		// for multi marker
 		if( localStorage.getItem('ARjsMultiMarkerFile') === null ){
 			ARjs.MarkersAreaUtils.storeDefaultMultiMarkerFile(arContext.parameters.trackingBackend)
 		}
@@ -6522,8 +6509,7 @@ ARjs.Anchor = function(arSession, markerParameters){
 		// honor markerParameters.changeMatrixMode
 		multiMarkerControls.parameters.changeMatrixMode = markerParameters.changeMatrixMode
 
-// TODO put subMarkerControls visibility into an external file. with 2 handling for three.js and babylon.js
-		// create ArMarkerHelper - useful to debug - super three.js specific
+		// create ArMarkerHelper - useful to debug
 		var markerHelpers = []
 		multiMarkerControls.subMarkersControls.forEach(function(subMarkerControls){
 			// add an helper to visuable each sub-marker
@@ -6582,6 +6568,22 @@ ARjs.Anchor = function(arSession, markerParameters){
 		}
 	}
 }
+
+
+/**
+ * Apply ARjs.Session.HitTestResult to the controlled object3d
+ * 
+ * @param {ARjs.HitTesting.Result} hitTestResult - the result to apply
+ */
+ARjs.Anchor.prototype.applyHitTestResult = function(hitTestResult){
+	console.warn('obsolete anchro.applyHitTestResult - use hitTestResult.apply(object3d) instead')
+	hitTestResult.apply(this.object3d)
+	// object3d.position.copy(hitTestResult.position)
+	// object3d.quaternion.copy(hitTestResult.quaternion)
+	// object3d.scale.copy(hitTestResult.scale)
+	// 
+	// object3d.updateMatrix()
+}
 // @namespace
 var ARjs = ARjs || {}
 
@@ -6623,15 +6625,12 @@ ARjs.SessionDebugUI = function(arSession, tangoPointCloud){
 	//////////////////////////////////////////////////////////////////////////////
 	//		augmented-websites
 	//////////////////////////////////////////////////////////////////////////////
-
-	if( ARjs.SessionDebugUI.AugmentedWebsiteURL ){
-		var domElement = document.createElement('a')
-		domElement.innerHTML = 'Share on augmented-websites'
-		domElement.style.display = 'block'
-		// domElement.setAttribute('target', '_blank')
-		domElement.href = ARjs.SessionDebugUI.AugmentedWebsiteURL + '?'+location.href
-		this.domElement.appendChild(domElement)						
-	}
+	var domElement = document.createElement('a')
+	domElement.innerHTML = 'Share on augmented-websites'
+	domElement.style.display = 'block'
+	domElement.setAttribute('target', '_blank')
+	domElement.href = 'https://webxr.io/augmented-website?'+location.href
+	this.domElement.appendChild(domElement)				
 
 	//////////////////////////////////////////////////////////////////////////////
 	//		toggle-point-cloud
@@ -6657,12 +6656,6 @@ ARjs.SessionDebugUI = function(arSession, tangoPointCloud){
 		})
 	}
 }
-
-/**
- * Url of augmented-website service - if === '' then dont include augmented-website link
- * @type {String}
- */
-ARjs.SessionDebugUI.AugmentedWebsiteURL = 'https://webxr.io/augmented-website'
 
 //////////////////////////////////////////////////////////////////////////////
 //		ARjs.AnchorDebugUI
@@ -7850,7 +7843,7 @@ ARjs.MarkersAreaUtils.navigateToLearnerPage = function(learnerBaseURL, trackingB
 		trackingBackend: trackingBackend,
 		markersControlsParameters: ARjs.MarkersAreaUtils.createDefaultMarkersControlsParameters(trackingBackend),
 	}
-	location.href = learnerBaseURL + '?' + encodeURIComponent(JSON.stringify(learnerParameters))
+	location.href = learnerBaseURL + '#' + encodeURIComponent(JSON.stringify(learnerParameters))
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -7887,7 +7880,7 @@ ARjs.MarkersAreaUtils.createDefaultMultiMarkerFile = function(trackingBackend){
 	// create the base file
 	var file = {
 		meta : {
-			createdBy : 'AR.js ' + ARjs.Context.REVISION + ' - Default Marker',
+			createdBy : "AR.js Default Marker "+ARjs.Context.REVISION,
 			createdAt : new Date().toJSON(),
 		},
 		trackingBackend : trackingBackend,
@@ -7987,130 +7980,6 @@ ARjs.MarkersAreaUtils.createDefaultMarkersControlsParameters = function(tracking
 	}else console.assert(false)
 	return markersControlsParameters
 }
-
-
-//////////////////////////////////////////////////////////////////////////////
-//		Code Separator
-//////////////////////////////////////////////////////////////////////////////
-/**
- * generate areaFile
- */
-ARjs.MarkersAreaUtils.storeMarkersAreaFileFromResolution = function (trackingBackend, resolutionW, resolutionH) {
-	// generate areaFile
-	var areaFile = this.buildMarkersAreaFileFromResolution(trackingBackend, resolutionW, resolutionH)
-	// store areaFile in localStorage
-	localStorage.setItem('ARjsMultiMarkerFile', JSON.stringify(areaFile))
-}
-
-
-//////////////////////////////////////////////////////////////////////////////
-//		Code Separator
-//////////////////////////////////////////////////////////////////////////////
-	
-ARjs.MarkersAreaUtils.buildMarkersAreaFileFromResolution = function(trackingBackend, resolutionW, resolutionH){
-	// create the base file
-	var file = {
-		meta : {
-			createdBy : 'AR.js - Augmented Website',
-			createdAt : new Date().toJSON(),
-		},
-		trackingBackend : trackingBackend,
-		subMarkersControls : [
-			// empty for now...
-		]
-	}
-	
-	var whiteMargin = 0.1
-	if( resolutionW > resolutionH ){
-		var markerImageSize = 0.4 * resolutionH
-	}else if( resolutionW < resolutionH ){
-		var markerImageSize = 0.4 * resolutionW
-	}else if( resolutionW === resolutionH ){
-		// specific for twitter player - https://dev.twitter.com/cards/types/player
-		var markerImageSize = 0.33 * resolutionW
-	}else console.assert(false)
-
-	// console.warn('using new markerImageSize computation')
-	var actualMarkerSize = markerImageSize * (1 - 2*whiteMargin)
-	
-	var deltaX = (resolutionW - markerImageSize)/2 / actualMarkerSize
-	var deltaZ = (resolutionH - markerImageSize)/2 / actualMarkerSize
-
-	var subMarkerControls = buildSubMarkerControls('center', 0, 0)
-	file.subMarkersControls.push(subMarkerControls)
-
-	var subMarkerControls = buildSubMarkerControls('topleft', -deltaX, -deltaZ)
-	file.subMarkersControls.push(subMarkerControls)
-	
-	var subMarkerControls = buildSubMarkerControls('topright', +deltaX, -deltaZ)
-	file.subMarkersControls.push(subMarkerControls)
-
-	var subMarkerControls = buildSubMarkerControls('bottomleft', -deltaX, +deltaZ)
-	file.subMarkersControls.push(subMarkerControls)
-	
-	var subMarkerControls = buildSubMarkerControls('bottomright', +deltaX, +deltaZ)
-	file.subMarkersControls.push(subMarkerControls)
-
-	return file
-	
-	//////////////////////////////////////////////////////////////////////////////
-	//		Code Separator
-	//////////////////////////////////////////////////////////////////////////////
-
-	function buildSubMarkerControls(layout, positionX, positionZ){
-		console.log('buildSubMarkerControls', layout, positionX, positionZ)
-		// create subMarkersControls
-		var subMarkersControls = {
-			parameters: {},
-			poseMatrix: new THREE.Matrix4().makeTranslation(positionX,0, positionZ).toArray(),
-		}
-		// fill the parameters
-		if( trackingBackend === 'artoolkit' ){
-			layout2MarkerParametersArtoolkit(subMarkersControls.parameters, layout)
-		}else if( trackingBackend === 'aruco' ){
-			layout2MarkerParametersAruco(subMarkersControls.parameters, layout)
-		}else console.assert(false)
-		// return subMarkersControls
-		return subMarkersControls
-	}
-
-	function layout2MarkerParametersArtoolkit(parameters, layout){
-		// create absoluteBaseURL
-		var link = document.createElement('a')
-		link.href = ARjs.Context.baseURL
-		var absoluteBaseURL = link.href
-			
-		var layout2PatternUrl = {
-			'center' : convertRelativeUrlToAbsolute(absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-hiro.patt'),
-			'topleft' : convertRelativeUrlToAbsolute(absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterA.patt'),
-			'topright' : convertRelativeUrlToAbsolute(absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterB.patt'),
-			'bottomleft' : convertRelativeUrlToAbsolute(absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterC.patt'),
-			'bottomright' : convertRelativeUrlToAbsolute(absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterF.patt'),
-		}
-		console.assert(layout2PatternUrl[layout] !== undefined )
-		parameters.type = 'pattern'
-		parameters.patternUrl = layout2PatternUrl[layout]
-		return
-		function convertRelativeUrlToAbsolute(relativeUrl){
-			var tmpLink = document.createElement('a');
-			tmpLink.href = relativeUrl
-			return tmpLink.href
-		}
-	}
-
-	function layout2MarkerParametersAruco(parameters, layout){
-		var layout2Barcode = {
-			'center' : 1001,
-			'topleft' : 1002,
-			'topright' : 1003,
-			'bottomleft' : 1004,
-			'bottomright' : 1005,
-		}
-		console.assert(layout2Barcode[layout])
-		parameters.type = 'barcode'
-		parameters.barcodeValue = layout2Barcode[layout]
-	}
-}
 //////////////////////////////////////////////////////////////////////////////
 //		arjs-anchor
 //////////////////////////////////////////////////////////////////////////////
@@ -8197,7 +8066,13 @@ AFRAME.registerComponent('arjs-anchor', {
 				arProfile.defaultMarkerParameters.type = 'barcode'
 				arProfile.defaultMarkerParameters.barcodeValue = 1001	
 				arProfile.defaultMarkerParameters.markersAreaEnabled = true
-			}else {
+			}
+			else if( _this.data.preset === 'custom' ){
+				arProfile.defaultMarkerParameters.type = 'pattern';
+				arProfile.defaultMarkerParameters.patternUrl = _this.data.patternUrl; 
+				arProfile.defaultMarkerParameters.markersAreaEnabled = false;
+			}
+			else {
 				// console.assert( this.data.preset === '', 'illegal preset value '+this.data.preset)
 			}		
 
