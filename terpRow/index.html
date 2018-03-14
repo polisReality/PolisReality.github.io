@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Polis</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+
+    .cardShadow{
+
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+    .topCard{
+      margin-top: 100px;
+    }
+    .col-centered{
+      float: none;
+      margin: 0 auto;
+      
+    }
+    .card{
+      width: 100%;
+    }
+    .navbar{
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      background-color:#ff3333;
+    }
+
+    iframe{
+      border: none;
+      display: block;
+      margin: 0 auto;
+      width: 600px;
+      height: 300px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .dir{
+      width: 300px;
+      height: 300px;
+    }
+
+    .noHighlight{
+      border:none;
+      outline:none;
+      text-decoration:none;
+      color:inherit;
+      -webkit-tap-highlight-color: white;
+    }
+
+    @media only screen and (max-width: 767px) {
+
+      iframe{
+        border: none;
+        display: block;
+        margin: 0 auto;
+        width: 250px;
+        height: 125px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      .dir{
+        width: 125px;
+        height: 125px;
+      }
+    }
+    
+  </style>
+</head>
+<body class='bg-light'>
+
+  <nav class="navbar fixed-top">
+    <a class="navbar-brand" href="#">
+      <img src="img/terpRowLogo.png" width="40" height="40" class="d-inline-block align-top" alt="">
+    </a>
+  </nav>
+
+  <div class='container'>
+
+    <div class='card cardShadow topCard'>
+      <div class='card-block'>
+        <h3 class='card-header'><a class='noHighlight' href='../firstDemo/terpRowVR1.html'>Explore Terrapin Row and College Park!</a></h3>
+        <br>
+        <p style="text-align: center">Experience full screen <a href='../firstDemo/terpRowVR1.html'>here</a></p>
+        <iframe src="../firstDemo/terpRowVR1.html"></iframe>
+      </div>
+    </div>
+
+    <div class='card cardShadow'>
+      <div class='card-block '>
+        <h3 class='card-header'>Augmented Reality Holograms</h3>
+        <br>
+        <!-- <p style="text-align: center">Use <a href="./img/hiro.png">this</a> marker to place the hologram</p> -->
+        <!-- <iframe src="./firstDemo/ar1.html"></iframe> -->
+        <p style="text-align: center">Open <a href="./img/tRowMarker.png">this</a> marker and go to <a href="../firstDemo/terpRow.html">this</a> or <a href='../firstDemo/terpRowShell.html'>this</a> experience, then point phone at the marker to show hologram.</p>
+        <br>
+        <p style="text-align: center"><img class='dir' src="../img/pointPhone.png" alt='logo'></p>
+      </div>
+    </div>
+
+<!-- <div class='card' style='margin: 30px;'>
+  <div class='card-block'>
+    This is some text in a card block.
+  </div>
+</div>
+ -->
+</body>
+</html>
