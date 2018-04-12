@@ -1,10 +1,45 @@
 <!DOCTYPE html>
 <head>
-<script src="./js/aframe.min.js"></script>
-<script src="./js/aframe-ar.js"></script>>
+<!-- <script src="./js/aframe.min.js"></script> -->
+<!-- TODO: change out aframe scripts to the most receant version -->
+<script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+<script src="./js/jquery-3.3.1.js"></script>
+<script src="./js/aframe-ar.js"></script>
 <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<style type="text/css">
+
+	.displayHolder{
+		display: table;
+		text-align: center;
+
+		position:absolute; 
+		margin-left:-50px;
+		left:50%;
+		width:100px;
+	   	bottom:5%;
+
+		z-index: 1;
+	}
+</style>
+
+<script type="text/javascript">
+	function transferPage(){
+
+		//TODO: transfer this to the 360 tour
+		location.href = 'http://www.polisvr.com';
+	}
+</script>
 </head>
 <body style='margin : 0px; overflow: hidden;'>
+
+	<div class="displayHolder">
+		<button type="buton" class="btn btn-primary" onclick="transferPage()">Explore More!</button>
+	</div>
+
 	<a-scene embedded arjs='trackingMethod: best; debugUIEnabled: false;'>
 		<a-assets>
 	      <a-asset-item id="shell_obj" src="./models/BuildingModel2.obj"></a-asset-item>
@@ -14,12 +49,8 @@
       <a-marker preset='custom' url='./markers/tr.patt'>
    		<!-- Add your augmented reality here -->
 			<a-entity position="-2.29 0 1.63" scale='.5 .5 .5' rotation="0 0 0">
-			<!-- <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="10000" easing='linear' repeat="indefinite"></a-animation> -->
-			<a-obj-model src="#shell_obj" mtl="#shell_mtl" scale="3 3 3" position="0, .1, 0" rotation='0 0 0'>
-				<!-- <a-entity position="0 -.7 1" rotation="0 90 0" text-geometry="value: Startup Shell; font: #exoItalicFont; style: italic; size: 0.8; weight: bold; height: 0;" material="shader: flat; color: #6b070a"> -->
-				<!-- </a-entity> -->
-			</a-obj-model>
-			<a-plane src="#map" rotation="269.9777130656439 0 0" position="4.528 0 -3.269" scale="8.119 6.246 4.819"></a-plane>
+			<a-obj-model src="#shell_obj" mtl="#shell_mtl" scale="3 3 3" position="0, .05, 0" rotation='0 0 0'></a-obj-model>
+			<a-plane id="model" src="#map" rotation="269.9777130656439 0 0" position="4.528 0 -3.269" scale="8.119 6.246 4.819"></a-plane>
 		</a-entity>
       </a-marker>
 	  <a-entity camera></a-entity>

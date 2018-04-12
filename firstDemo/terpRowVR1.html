@@ -1,25 +1,115 @@
 <!DOCTYPE html>
   <head>
-    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+    <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
+    <script src="./js/fastClick.js"></script>
+    <script src="./js/jquery-3.3.1.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        var camera = document.querySelector("#head");
+
+        //if the user is on desktop it sets the pointer lock to true and gives them a cursor
+        if (!AFRAME.utils.device.isMobile()) {
+
+            camera.setAttribute("look-controls", "pointerLockEnabled: true");
+            camera.innerHTML += "<a-cursor></a-cursor>"
+        }
+
+        //TODO: figure out this 300ms delay on mobile click
+        $(function() {
+          FastClick.attach(document.body);
+        });
+      });
+
+      /**
+       * Component that listens to an event, fades out an entity, swaps the texture, and fades it
+       * back in.
+       */
+      AFRAME.registerComponent('link-model', {
+        schema: {
+          on: {type: 'string'},
+          target: {type: 'selector'},
+          dur: {type: 'number', default: 1000}
+        },
+
+        init: function () {
+          var data = this.data;
+          var el = this.el;
+
+          this.setupFadeAnimation();
+          var inClick = false;
+
+          el.addEventListener(data.on, function () {
+
+            if(!inClick){
+
+              inClick = true;
+
+              // Fade out image.
+              data.target.emit('set-image-fade');
+            }
+
+            console.log("Clicked!");
+
+            // Wait for fade to complete.
+            setTimeout(function () {
+              //transistions to website
+              location.href = 'http://www.polisvr.com';
+              inClick = false;
+            }, data.dur+200);
+          });
+        },
+
+        /**
+         * Setup fade-in + fade-out.
+         */
+        setupFadeAnimation: function () {
+          var data = this.data;
+          var targetEl = this.data.target;
+
+          // Only set up once.
+          if (targetEl.dataset.setImageFadeSetup) { return; }
+          targetEl.dataset.setImageFadeSetup = true;
+
+          // Create animation.
+          targetEl.setAttribute('animation__fade', {
+            property: 'material.opacity',
+            startEvents: 'set-image-fade',
+            dir: 'normal',
+            dur: data.dur,
+            from: '0.35',
+            to: '1'
+          });
+        }
+      });
+    </script>
   </head>
   <body>
-    <a-scene>
+    <a-scene cursor="rayOrigin: mouse">
     	<a-assets>
 	      <a-asset-item id="building_obj" src="./models/BuildingModel2.obj"></a-asset-item>
 	      <a-asset-item id="building_mtl" src="./models/BuildingModel2.mtl"></a-asset-item>
 	      <img id="map" src='./img/mapHD.jpg'></img>
   		</a-assets>
 
-  		<a-obj-model src="#building_obj" mtl="#building_mtl" scale="1.886 1.886 1.886" position="-5.037 0 11.792" rotation="0 -6.990085100596043 0" material=""></a-obj-model>
-  		<a-plane src="#map" rotation="-87.892 -177.445 170.34" scale="32.917 25.324 19.541" position="1.376 0 4.064"></a-plane>
+  		<a-obj-model id="terpRowBuildingModel" link-model="on: click; target: #fadeShield;" src="#building_obj" mtl="#building_mtl" scale="1.886 1.886 1.886" position="-5.037 0 11.792" rotation="0 -6.990085100596043 0" material=""></a-obj-model>
+  		<a-plane id='earthMap' src="#map" rotation="-87.892 -177.445 170.34" scale="32.917 25.324 19.541" position="1.376 0 4.064"></a-plane>
 
-		<a-entity position="-4.664 -0.083 1.444" rotation="-39.19031318694831 86.34473972621505 0" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:McKeldin Library" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
-		<a-entity position="-0.3 1.805 9.165" rotation="-21.027551081301212 -179.96604345059157 0" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:Terrapin Row" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
-		<a-entity position="5.65 1.805 1.014" rotation="-21.027551081301212 -111.49758693245819 0.5156620156177408" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:Route One" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
+  		<a-entity position="-4.664 -0.083 1.444" rotation="-39.19031318694831 86.34473972621505 0" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:McKeldin Library" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
+  		<a-entity position="-0.3 1.805 9.165" rotation="-21.027551081301212 -179.96604345059157 0" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:Terrapin Row" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
+  		<a-entity position="5.65 1.805 1.014" rotation="-21.027551081301212 -111.49758693245819 0.5156620156177408" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:Route One" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
 
-      	<a-sky color="#ECECEC"></a-sky>
-      	<a-camera position='0 2 3.5' rotation="-25 90 0"></a-camera>
+    	<a-sky id="sky" color="#1e90ff"></a-sky>
+      <a-entity position='0 2 3.5' rotation="0 90 0">
+
+        <a-camera id="head" look-controls="pointerLockEnabled: true">
+          <a-plane  id="fadeShield" color="#CCC" height="5" width="5" position="0 0 -1.1 " rotation="0 0 0" material="shader: flat; opacity: 0;"></a-plane>
+        </a-camera>
+      </a-entity>
     </a-scene>
   </body>
 </html>
