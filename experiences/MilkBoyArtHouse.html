@@ -5,7 +5,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <title>MilkBoy ArtHouse</title>
 
-    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.8.6/dist/aframe-extras.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aframe-animation-component@%5E3.2.x/dist/aframe-animation-component.min.js"></script>
@@ -33,6 +33,7 @@
     var linkNum = 0;
     links = ["http://theclarice.umd.edu/series/2017-2018-milkboy-arthouse", "http://theclarice.umd.edu/events/2017/warren-wolf-and-the-wolfpack", "http://theclarice.umd.edu/events/2017/donny-mccaslin-group", "http://theclarice.umd.edu/events/2017/keith-a-wallace", "http://theclarice.umd.edu/events/2017/colin-stetson-saxophone", "http://theclarice.umd.edu/events/2017/jaimeo-brown-transcendence", "http://theclarice.umd.edu/events/2017/la-manta", "http://theclarice.umd.edu/events/2017/rahim-alhaj-oud"];
     var welcome;
+    var onMobile = false;
 
 	$(document).ready(function(){
 
@@ -43,13 +44,16 @@
 
     	if (!AFRAME.utils.device.isMobile()) {
 
-	    	cam.setAttribute('universal-controls', "movementEnabled: false");
+	    	cam.setAttribute("look-controls", "pointerLockEnabled: true");
 
-            document.querySelector('#mobileDirections').style.display = 'none';
+            //document.querySelector('#mobileDirections').style.display = 'none';
 	    }
         else{
 
-            document.querySelector('#DesktopDirections').style.display = 'none';
+          //gets rid of the cursor on mobile
+          cam.innerHTML = "";
+          onMobile = true;
+            //document.querySelector('#DesktopDirections').style.display = 'none';
         }
 
         addClick();
@@ -63,7 +67,7 @@
         });
 
         var cursor = document.querySelector('#cursor');
-        cursor.setAttribute("fuse", "true");
+        //cursor.setAttribute("fuse", "true");
     }	
 
 	// Component to change to random color on click.
@@ -82,7 +86,13 @@
 
 	    console.log(description);
 
-	    this.el.addEventListener('click', function (evt) {
+      var evnt = "click";
+
+      if(onMobile){
+        evnt = "mouseenter";
+      }
+
+	    this.el.addEventListener(evnt, function (evt) {
 
 	      console.log('Clicked');
 
@@ -162,7 +172,7 @@
       </div>
     </div>
  -->
-    <a-scene id='main-app-container'>
+    <a-scene id='main-app-container' cursor="rayOrigin: mouse">
 
      	<a-assets>
      		<img id="atrium" src="./img/MilkboyArthouse/mbah_01.jpg" preload="true"/>
@@ -196,9 +206,9 @@
         </a-entity> -->
 
         <a-entity rotation = "0 180 0" position='0 1.4 -5' >
-        	<a-camera id="head">
-          		<a-cursor id="cursor" fuse="false" fuse-timeout="800" raycaster="objects: .link"></a-cursor> 
-        	</a-camera>
+        	<a-camera id="head" position='0 1.6 0'>
+           <a-cursor position='0 0 0' id='cursor' fuse='false' fuse-timeout='800' raycaster='objects: .link'></a-cursor> 
+          </a-camera>
         </a-entity>
 
         <a-plane src="#tripodCover" position="0 0 -5" rotation="-90 180 0" scale="2.3 2.3 2.3" transparent="true"></a-plane>
