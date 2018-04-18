@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="./js/jquery-3.3.1.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style type="text/css">
+
+      .displayHolder{
+        text-align: center;
+        position:absolute; 
+        margin-left:0 auto;
+        float: left;
+        left:23%;
+        bottom:5%;
+        z-index: 1;
+        user-select: none;
+      }
+
+      input{
+        display: inline;
+        margin: 30px;
+        width: 10%;
+        height: 10%;
+        user-select: none;
+        outline: none;
+     }
+
+     #back{
+        margin-right: 25%;
+     }
+
+     #forward{
+        margin-left: 25%;
+     }
+
+    @media only screen and (max-width: 800px) {
+      .displayHolder{
+        left: auto;
+        margin-bottom: -4%;
+      }
+
+      #back{
+
+        margin-right: 15%;
+      }
+
+      #forward{
+        margin-left: 15%;
+      }
+
+      input{
+
+        width: 15%;
+        height: 15%
+      }
+    }
+
+    @media only screen and (max-height: 450px) {
+
+      .displayHolder{
+        margin-bottom: -8%;
+      }
+      #back{
+
+        margin-right: 10%;
+      }
+
+      #forward{
+        margin-left: 1%;
+      }
+
+      input{
+
+        width: 10%;
+        height: 10%
+      }
+
+    }
+    </style>
+
+  <script type="text/javascript">
+    
+    $(document).ready(function(){
+
+        var sky = document.querySelector("#sky");
+        var curPic=2;
+        var pics = ["#courtyard", "#studyRoom", "#front"];
+
+        var forwardButton = document.querySelector("#forward");
+        var backwardButton = document.querySelector("#back");
+
+        var evt='click';
+
+        //if the user is on desktop it sets the event to click
+        if (!AFRAME.utils.device.isMobile()) {
+          evt = 'click';
+        }
+
+        forwardButton.addEventListener(evt, function(){
+
+          console.log("forward: "+curPic);
+
+            curPic = (curPic+1)%3;
+            sky.setAttribute('src', pics[curPic]);
+
+            console.log(curPic);
+        });
+
+        backwardButton.addEventListener(evt, function(){
+
+          console.log("back: "+curPic);
+
+            if(curPic == 0){
+              curPic = 2;
+            }
+            else{
+              curPic = (curPic-1)%3;
+            }
+            
+            sky.setAttribute('src', pics[curPic]);
+
+            console.log(curPic);
+        });
+    });
+  </script>
+
+  </head>
+  <body>
+
+    <div id="buttonHolder" class="displayHolder">
+      <input id='back' type="image" src='./img/arrows_backward.png'></button>
+      <input id='forward' type="image" src='./img/arrows_forward.png'></button>
+    </div>
+
+    <a-scene>
+    	<a-assets>
+	      <img id="courtyard" src="./img/360/trow_courtYard_2.jpg"></img>
+	      <img id="studyRoom" src="./img/360/trow_study_2.jpg"></img>
+        <img id="front" src="./img/360/trow_front.jpg"></img>
+  		</a-assets>
+
+    	<a-sky id="sky" src='#front'></a-sky>
+
+      <a-entity position='0 2 3.5' rotation="0 90 0">
+        <a-camera id="head">
+          <!-- <a-plane  id="fadeShield" color="#CCC" height="5" width="5" position="0 0 -1.1 " rotation="0 0 0" material="shader: flat; opacity: 0;"></a-plane> -->
+        </a-camera>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>

@@ -43,7 +43,14 @@
           this.setupFadeAnimation();
           var inClick = false;
 
-          el.addEventListener(data.on, function () {
+          var on = 'mouseenter';
+
+          if (!AFRAME.utils.device.isMobile()) {
+
+            on = 'click';
+          }
+
+          el.addEventListener(on, function () {
 
             if(!inClick){
 
@@ -58,7 +65,7 @@
             // Wait for fade to complete.
             setTimeout(function () {
               //transistions to website
-              location.href = 'http://www.polisvr.com';
+              location.href = './terpRowTour.html';
               inClick = false;
             }, data.dur+200);
           });

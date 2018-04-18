@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<head>
+<script src="./js/aframe.min.js"></script>
+<script src="./js/aframe-ar.js"></script>
+<script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<style type="text/css">
+	
+	.center {
+		width:300px;
+		height:300px;
+		position:absolute;
+		left:50%;
+		top:38%;
+		margin:-75px 0 0 -135px;
+	}
+
+	.directions{
+		background-color: rgba(255, 255, 255, .5);
+		text-align: center;
+		margin-right: 40%;
+		margin-left: 40%;
+		margin-top: 60%
+	}
+</style>
+
+</head>
+	
+	<!-- https://stackoverflow.com/questions/44799413/how-to-detect-when-marker-is-found-in-ar-js/44809425#44809425 -->
+	<!-- https://github.com/donmccurdy/aframe-extras/issues/180 -->
+	<!-- <img src='./img/hitArea.png' class='center'>
+	<h3 class='directions'>Point Toward Marker</h3> -->
+
+
+<body style='margin : 0px; overflow: hidden;'>
+
+	
+
+	<a-scene embedded arjs='trackingMethod: best; debugUIEnabled: false;'>
+		<a-assets>
+	      <a-asset-item id="shell_obj" src="./models/trowShellTri.obj"></a-asset-item>
+	      <a-asset-item id="shell_mtl" src="./models/trowShellTri.mtl"></a-asset-item>
+  		</a-assets>
+
+      <a-marker preset='custom' url='./markers/polis_marker_v2.patt'>
+		<a-entity position="0 0 0" rotation="0 0 0">
+			<a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="10000" easing='linear' repeat="indefinite"></a-animation>
+			<a-obj-model src="#shell_obj" mtl="#shell_mtl" scale="1 1 1" position="-.85, 0, 0" rotation='90 0 0'>
+				<a-entity position="-.5 0 -2" rotation="-90 0 0" scale='.5 .5 .5' text-geometry="value: Terrapin Row; style: italic; size: 0.8; weight: bold; height: 0;" material="shader: flat; color: #6b070a">
+				</a-entity>
+			</a-obj-model>
+		</a-entity>
+      </a-marker>
+	  <a-entity camera></a-entity>
+	</a-scene>
+</body>
