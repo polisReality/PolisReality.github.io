@@ -101,14 +101,21 @@
 	      <a-asset-item id="building_obj" src="./models/BuildingModel2.obj"></a-asset-item>
 	      <a-asset-item id="building_mtl" src="./models/BuildingModel2.mtl"></a-asset-item>
 	      <img id="map" src='./img/mapHD.jpg'></img>
+        <img id ='library' src="./img/labels/library.png"></img>
+        <img id ='routeOne' src="./img/labels/routeOne.png"></img>
+        <img id ='terpRow' src="./img/labels/terpRow.png"></img>
   		</a-assets>
 
   		<a-obj-model id="terpRowBuildingModel" link-model="on: mouseenter; target: #fadeShield;" src="#building_obj" mtl="#building_mtl" scale="1.886 1.886 1.886" position="-5.037 0 11.792" rotation="0 -6.990085100596043 0" material=""></a-obj-model>
   		<a-plane id='earthMap' src="#map" rotation="-87.892 -177.445 170.34" scale="32.917 25.324 19.541" position="1.376 0 4.064"></a-plane>
 
-  		<a-entity position="-4.664 -0.083 1.444" rotation="-39.19031318694831 86.34473972621505 0" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:McKeldin Library" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
-  		<a-entity position="-0.3 1.805 9.165" rotation="-21.027551081301212 -179.96604345059157 0" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:Terrapin Row" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
-  		<a-entity position="5.65 1.805 1.014" rotation="-21.027551081301212 -111.49758693245819 0.5156620156177408" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:Route One" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity>
+  		<!-- <a-entity position="-4.664 -0.083 1.444" rotation="-39.19031318694831 86.34473972621505 0" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:McKeldin Library" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity> -->
+  		<!-- <a-entity position="-0.3 1.805 9.165" rotation="-21.027551081301212 -179.96604345059157 0" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:Terrapin Row" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity> -->
+  		<!-- <a-entity position="5.65 1.805 1.014" rotation="-21.027551081301212 -111.49758693245819 0.5156620156177408" text-geometry="height:0;size:0.8;style:bold;weight:bold;value:Route One" material="shader:flat;color:#6b070a" scale="0.446 0.446 0.446"></a-entity> -->
+
+      <a-plane src='#library' material='transparent: true;' position="-5.1 0.5 0.104" rotation='-20 70 0' scale='2 1 1'></a-plane>
+      <a-plane src='#terpRow' material='transparent: true;' position="-1.67 1.805 9.165" rotation="0 -200 0" scale='2 1 1'></a-plane>
+      <a-plane src='#routeOne' material='transparent: true' position="5.65 1.4 2.120" rotation="-21.0276 -75.5 0.516" scale='2 1 1'></a-plane>
 
     	<a-sky id="sky" color="#1e90ff"></a-sky>
       <a-entity position='0 2 3.5' rotation="0 90 0">

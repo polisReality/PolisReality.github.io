@@ -92,6 +92,9 @@
 
         var forwardButton = document.querySelector("#forward");
         var backwardButton = document.querySelector("#back");
+        var buttonHolder = document.querySelector("#buttonHolder");
+
+        var scene = document.querySelector('#main_scene');
 
         var evt='click';
 
@@ -125,6 +128,16 @@
 
             console.log(curPic);
         });
+
+        scene.addEventListener('enter-vr', function () {
+
+          buttonHolder.setAttribute("visibility" ,"hidden");
+        });
+
+        scene.addEventListener('exit-vr', function () {
+
+          buttonHolder.setAttribute("visibility" ,"visible");
+        });
     });
   </script>
 
@@ -136,7 +149,7 @@
       <input id='forward' type="image" src='./img/arrows_forward.png'></button>
     </div>
 
-    <a-scene>
+    <a-scene id='main_scene'>
     	<a-assets>
 	      <img id="courtyard" src="./img/360/trow_courtYard_2.JPG"></img>
 	      <img id="studyRoom" src="./img/360/trow_study_2.JPG"></img>
@@ -146,10 +159,13 @@
     	<a-sky id="sky" src='#front'></a-sky>
 
       <a-entity position='0 2 3.5' rotation="0 90 0">
-        <a-camera id="head">
+        <a-camera id="head" position='-.08 0 -.2'>
           <!-- <a-plane  id="fadeShield" color="#CCC" height="5" width="5" position="0 0 -1.1 " rotation="0 0 0" material="shader: flat; opacity: 0;"></a-plane> -->
         </a-camera>
       </a-entity>
+
+      <a-plane src='./img/terpRow_TripodCover.png' position='-0.03 1 3.55' rotation='270 0 -90' material='transparent: true;'></a-plane>
+
     </a-scene>
   </body>
 </html>
